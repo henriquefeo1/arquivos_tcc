@@ -4,11 +4,11 @@ library(ggmap)
 api <- "AIzaSyDtOJWW5-E5odqNlHr62gQ7gGDfYod53uQ"
 register_google(key = api)
 
-# ------ FunÃ§Ãµes ------
-# FunÃ§Ã£o para converter o tipo de opÃ§Ã£o para numÃ©rico
-# ObrigatÃ³rio = 1
+# ------ Funções ------
+# Função para converter o tipo de opção para numérico
+# Obrigatório = 1
 # Diferencial = 2
-# NÃ£o ObrigatÃ³rio = 0
+# Não Obrigatório = 0
 op_to_number <- function(texto) {
   if (substr(texto, 1, 3) == "Obr") {
     return(1)
@@ -19,7 +19,7 @@ op_to_number <- function(texto) {
   }
 }
 
-# FunÃ§Ã£o para converter "Sim" ou "NÃ£o" em 1 e 0
+# Função para converter "Sim" ou "Não" em 1 e 0
 bol_to_number <- function(texto) {
   if (texto == "Sim") {
     return(1)
@@ -28,7 +28,7 @@ bol_to_number <- function(texto) {
   }
 }
 
-# FunÃ§Ã£o para converter o periodo
+# Função para converter o periodo
 func_periodo <- function(tipo, texto) {
   if(tipo == 1){
     if(texto == "Diurno"){
@@ -46,7 +46,7 @@ func_periodo <- function(tipo, texto) {
   }
 }
 
-# FunÃ§Ã£o para converter o periodo
+# Função para converter o periodo
 func_tipo_escola <- function(texto) {
   if (texto == "Federal") {
     return(1)
@@ -59,7 +59,7 @@ func_tipo_escola <- function(texto) {
   }
 }
 
-# FunÃ§Ã£o para verifica obrigatoriedade, se Ã© obrigatÃ³rio e o input Ã© diferente da base, descarta
+# Função para verifica obrigatoriedade, se é obrigatório e o input é diferente da base, descarta
 func_filtro <- function(opcao, var1, var2) {
   if (opcao == 1 && var1 != var2) {
     return("fora")
@@ -68,7 +68,7 @@ func_filtro <- function(opcao, var1, var2) {
   }
 }
 
-# FunÃ§Ã£o que verifica se a opÃ§Ã£o Ã© "diferencial" ou nÃ£o e se for igual Ã© busca, retorna 1
+# Função que verifica se a opção é "diferencial" ou não e se for igual é busca, retorna 1
 func_igual <- function(opcao, var1, var2) {
   if ((opcao == 1 || opcao == 2) && var1 == var2) {
     return(1)
@@ -77,7 +77,7 @@ func_igual <- function(opcao, var1, var2) {
   }
 }
 
-# FunÃ§Ã£o para verificar se o perÃ­odo a ser buscado estÃ¡ correto
+# Função para verificar se o período a ser buscado está correto
 func_igual_periodo <- function(opcao, diurno, noturno, periodo_busca) {
   if (periodo_busca == "Diurno"){
     if ((opcao == 1 || opcao == 2) && diurno == 1){
@@ -96,7 +96,7 @@ func_igual_periodo <- function(opcao, diurno, noturno, periodo_busca) {
   }
 }
 
-# Converte a opÃ§Ã£o para binÃ¡rio (obrigatÃ³rio = 0, demais = 1)
+# Converte a opção para binário (obrigatório = 0, demais = 1)
 func_considera <- function(opcao) {
   if (opcao == 1 || opcao == 2) {
     return(1)
@@ -105,7 +105,7 @@ func_considera <- function(opcao) {
   }
 }
 
-# Calcula distancia knn (distÃ¢ncia euclidiana)
+# Calcula distancia knn (distância euclidiana)
 func_calc_dist <- function(opcao, var1, var2){
     if (opcao == 2){
         return((var1 - var2)^2)
@@ -159,7 +159,7 @@ calc_knn <- function(row) {
     
     soma_dist <- 0
   
-    # Verifica similaridade (calcula o KNN e contabiliza as caracterÃ­sticas similares)
+    # Verifica similaridade (calcula o KNN e contabiliza as características similares)
     soma_dist <- sqrt(func_calc_dist(row$op1, row$TP_DEPENDENCIA, row$tp_escola) +
         func_calc_dist(row$op2, row$IN_EXAME_SELECAO, row$exame_selec) +
         func_calc_dist(row$op3, row$IN_DIURNO, func_periodo(1, row$periodo)) +
@@ -253,9 +253,9 @@ calc_indice <- function(row) {
     return(indice_match)
 }
 
-# FunÃ§Ã£o para calcular a distÃ¢ncia haversina entre dois pares de coordenadas
+# Função para calcular a distância haversina entre dois pares de coordenadas
 haversine_distance <- function(lat1, lon1, lat2, lon2) {
-  R <- 6371  # Raio mÃ©dio da Terra em quilÃ³metros
+  R <- 6371  # Raio médio da Terra em quilómetros
   dlat <- (lat2 - lat1) * pi / 180
   dlon <- (lon2 - lon1) * pi / 180
   
@@ -268,17 +268,17 @@ haversine_distance <- function(lat1, lon1, lat2, lon2) {
   return(distance)
 }
 
-# FunÃ§Ã£o para converter binÃ¡rio para texto
+# Função para converter binário para texto
 bin_to_text <- function(variavel) {
   if (variavel == 1) {
     return("Sim")
   } else {
-    return("NÃ£o")
+    return("Não")
   }
 }
 
 
-# FunÃ§Ã£o para converter tipo de escola
+# Função para converter tipo de escola
 val_to_escola <- function(variavel) {
   if (texto == 1) {
     return("Federal")
@@ -292,7 +292,7 @@ val_to_escola <- function(variavel) {
 }
 
 
-# FunÃ§Ã£o para converter o periodo
+# Função para converter o periodo
 get_periodo <- function(diurno, noturno) {
   if (diurno == 1 && noturno == 1) {
     return("Diurno e noturno")
@@ -301,13 +301,13 @@ get_periodo <- function(diurno, noturno) {
   } else if (diurno == 0 && noturno == 1) {
     return("Noturno")
   } else {
-    return("Sem informaÃ§Ã£o")
+    return("Sem informação")
   }
 }
 
-# FunÃ§Ã£o para agrupar o endereÃ§o
+# Função para agrupar o endereço
 
 
 
 
-# FunÃ§Ã£o para informar o nÃºmero telefÃ´nico
+# Função para informar o número telefônico
