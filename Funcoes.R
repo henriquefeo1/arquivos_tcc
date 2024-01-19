@@ -1,9 +1,5 @@
 
 
-library(ggmap)
-api <- "AIzaSyDtOJWW5-E5odqNlHr62gQ7gGDfYod53uQ"
-register_google(key = api)
-
 # ------ Funções ------
 # Função para converter o tipo de opção para numérico
 # Obrigatório = 1
